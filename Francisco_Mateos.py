@@ -27,7 +27,7 @@ class Libro:
    
     # El método prestar debe cambiar el estado disponible a False si de un libro en la biblioteca.    
     def prestar(self):
-            if self.disponible == True:
+            if self.disponible:
                 self.disponible = False
                 print('¡Libro prestado con éxito, disfrute!')
             else:
@@ -86,8 +86,8 @@ def menu():
             nuevo_libro = Libro.agregar()
             biblioteca.append(nuevo_libro)
             
-        # Opción 2: Añadir un libro ELIF para ir secuencialmente descartando opciones
-        elif opcion == '2': #esto invoca la opción de prestar un libro, con la misma comprobación que anteriormente
+        # Opción 2: ELIF para ir secuencialmente descartando opciones
+        elif opcion == '2': #esto invoca la opción de prestar un libro y que no esté disopnible en la biblioteca, con la misma comprobación que anteriormente
             try:
                    isbn = input ('Ingrese un ISBN de CUATRO números: ')
                    if not (isbn.isdigit() and len(isbn)==4):

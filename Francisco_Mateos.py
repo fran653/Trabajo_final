@@ -8,21 +8,36 @@ class Libro():
         self.autor = autor
         self.isbn = isbn
         self.disponible = disponible
-    #continuamos declarando el resto de métodos
+    # continuamos declarando el resto de métodos según el enunciado
+    # Se implementa un error para que salte cuando el ISBN  introducido no sean 4 dígitos.
     def agregar():
-            titulo=input('Introduzca el título del libro que desee añadir')
-            autor = input('Introduzca su autor')
-            isbn = input('Introduzca el ISBN')
-            return Libro(titulo,autor,isbn)
-        
-    def prestar():
+            try:
+                titulo=input('Introduzca el título del libro que desee añadir')
+                autor = input('Introduzca su autor')
+                isbn = input('Introduzca el ISBN')
+                if not (isbn.isdigit() and len(isbn)==4): #con esta comprobación, lanzamos el error de incumplirse las condiciones
+                     raise ValueError("ERROR, el ISBN deben ser 4 dígitos")
+                print('¡Libro agregado con éxito!')
+                return Libro(titulo,autor,isbn)
+            except ValueError as error: #si se dispara el error, se muestra este texto y se vuelve atrás
+                 print(f'Error: {error}')
+                 print('Recuerde que un ISBN se compone de CUATRO dígitos') #intento aconsejar al usuario
+                 return Libro.agregar() # Aquí se usa la recursividad hasta que el usuario siga las instrucciones
+    # El método prestar debe cambiar el estado disponible a False si de un libro en la biblioteca.    
+    def prestar(self):
             if self.disponible == True:
-        
-    def devolver():
-        if Libro.disponible == False:
-            Libro.disponible == True
-        else print('El libro ya se encuentra presente, compruebe el número de ISBN')
-        pass
+                self.disponible == False
+                print('¡Libro prestado con éxito, disfrute!')
+            else:
+                 print('Lo sentimos, el libro no está disponible en esta biblioteca,')
+    # Este método debe cambiar a True si el libro estaba prestado y se entrega a la biblioteca.   
+    def devolver(self):
+        if not self.disponible:
+            self.disponible = True
+            print('¡Gracias por devolver el libro a tiempo!')
+        else:
+            print('El libro ya se encuentra presente, compruebe el número de ISBN')
+
     def mostrar():
         pass
     def buscar():

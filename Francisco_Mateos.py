@@ -13,9 +13,9 @@ class Libro():
     # Se implementa un error para que salte cuando el ISBN  introducido no sean 4 dígitos.
     def agregar():
             try:
-                titulo=input('Introduzca el título del libro que desee añadir')
-                autor = input('Introduzca su autor')
-                isbn = input('Introduzca el ISBN')
+                titulo=input('Introduzca el título del libro que desee añadir: ')
+                autor = input('Introduzca su autor: ')
+                isbn = input('Introduzca el ISBN': )
                 if not (isbn.isdigit() and len(isbn)==4): #con esta comprobación, lanzamos el error de incumplirse las condiciones
                      raise ValueError("ERROR, el ISBN deben ser 4 dígitos")
                 print('¡Libro agregado con éxito!')
@@ -49,7 +49,7 @@ class Libro():
                   raise ValueError ('ERROR, el ISBN debe tener CUATRO dígitos')
             for libro in lista_libros:
                   if libro.isbn == isbn:
-                       print(libro.mostar())
+                       print(libro.mostrar())
                        return libro
             print('Libro no encontrado.')
             return None
@@ -59,18 +59,17 @@ class Libro():
         # Esta función se podría resolver tanto por búsqueda binaria como búsqueda común, pero por motivos prácticos me he limitado a usar solo una comprobación directa
 
 # voy a crear unos objetos por defecto dentro de una lista que será la biblioteca, para que no partamos de un registro de libros vacío
-biblioteca = []
-Libro('El Quijote', 'Miguel de Cervantes', '1111')
-Libro('Romeo y Julieta', 'William Shakespeakre', '2222')
-Libro('Leyendas de Bécquer','Gustavo Adolfo Bécquer', '3333')
-Libro('El señor de los anillos', 'JRR Tolkien', '4444')
-
-print('¡Bienvenido al sistema de la biblioteca de Francisco! ¿En qué puedo ayudarle?')
+biblioteca = [
+    Libro('El Quijote', 'Miguel de Cervantes', '1111'),
+    Libro('Romeo y Julieta', 'William Shakespeakre', '2222'),
+    Libro('Leyendas de Bécquer','Gustavo Adolfo Bécquer', '3333'),
+    Libro('El señor de los anillos', 'JRR Tolkien', '4444')]
 
 # Ahora voy a crear un menú principal, de forma que sea una función que luego pueda meter en un bucle
 def menu():
+    print('¡Bienvenido al sistema de la biblioteca de Francisco! ¿En qué puedo ayudarle?')
     while True:
-        print('Seleccione una opción del 1 al 6')
+        print('\nSeleccione una opción del 1 al 6')
         print('1. Agregar libro al listado general')    
         print('2. Realizar el préstamo de un libro disponible en la biblioteca')
         print('3. Devolver un libro a la biblioteca que usted posee')
@@ -80,20 +79,58 @@ def menu():
       #será muy fácil resolver errores si solo salgo del bucle introduciendo una opción numérica correcta según la decisión del usuario.
         opcion = input('\n Elija una opción del 1-6 con el teclado numérico.')
         #ahora añado las opciones una a una, que invocarán los distintos métodos de la clase libro
+
+        # Opción 1: Añadir un libro
         if opcion =='1': #esto añadirá a la lista anterior un nuevo libro
             nuevo_libro = Libro.agregar()
             biblioteca.append(nuevo_libro)
+            
+        # Opción 2: Añadir un libro ELIF para ir secuencialmente descartando opciones
         elif opcion == '2': #esto invoca la opción de prestar un libro, con la misma comprobación que anteriormente
-              try:
+            try:
                    isbn = input ('Ingrese un ISBN de CUATRO números')
                    if not (isbn.isdigit() and len(isbn)==4):
                         raise ValueError ('ERROR, el ISBN debe tener CUATRO dígitos')
                    libro = Libro.buscar(isbn,biblioteca) #Invocamos el método de buscar, en la biblioteca, con el parámetro de entrada del ISBN
                    if libro:
                         libro.devolver () #si la condición es True, se podrá devolver
-              except ValueError as error():
+            except ValueError as error:
                 print(f'Error: {error}')
+                
+        # Opción 3: devolver un libro
+        elif opcion == '3':
+            try:
+                isbn = input('Ingrese un ISBN de CUATRO números: ')
+                if not (isbn.isdigit() and len(isbn)==4):
+                    raise ValueError('ERROR, el ISBN debe tener CUATRO dígitos')
+                libro = Libro.buscar(isbn, biblioteca)
+                if libro:
+                    libro.devolver()
+            except ValueError as error:
+                print(f'Error: {error}')
+                
+        # Opción 4: Mostrar libros
+        elif opcion == "4":
+            print("\nCatálogo de libros:")
+            for libro in biblioteca:
+                print(libro.mostrar())
 
+        # Opción 5: Buscar un libro por el número de ISBN
+        elif opcion == "5":
+            isbn = input("Ingrese el ISBN: ")
+            Libro.buscar(isbn, biblioteca)
+
+        # Opción 6: Salir del programa
+        elif opcion == "6":
+            print("Gracias por su visita. ¡Hasta pronto!")
+            break # para salir del bucle sin fin
+
+        # Otras teclas no válidas: mostraremos, aun así, un mensaje al usuario
+        else:
+            print("Opción inválida. Por favor, selecciona una opción del 1 al 6.")
+
+# Iniciar el programa, con la función que contiene a todas las demás
+menu()
 
 
 

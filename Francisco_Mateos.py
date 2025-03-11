@@ -1,6 +1,6 @@
 
 # Empezamos definiendo la clase principal de este ejercicio «libro» con su constructor.
-class Libro(): 
+class Libro: 
     # se debe ser coherente con la nomenclatura del enunciado.
     def __init__(self, titulo, autor, isbn, disponible=True): 
         #aquí declaro los argumentos que tendrá esta clase
@@ -15,7 +15,7 @@ class Libro():
             try:
                 titulo=input('Introduzca el título del libro que desee añadir: ')
                 autor = input('Introduzca su autor: ')
-                isbn = input('Introduzca el ISBN': )
+                isbn = input('Introduzca el ISBN: ' )
                 if not (isbn.isdigit() and len(isbn)==4): #con esta comprobación, lanzamos el error de incumplirse las condiciones
                      raise ValueError("ERROR, el ISBN deben ser 4 dígitos")
                 print('¡Libro agregado con éxito!')
@@ -24,10 +24,11 @@ class Libro():
                  print(f'Error: {error}')
                  print('Recuerde que un ISBN se compone de CUATRO dígitos') #intento aconsejar al usuario
                  return Libro.agregar() # Aquí se usa la recursividad hasta que el usuario siga las instrucciones
+   
     # El método prestar debe cambiar el estado disponible a False si de un libro en la biblioteca.    
     def prestar(self):
             if self.disponible == True:
-                self.disponible == False
+                self.disponible = False
                 print('¡Libro prestado con éxito, disfrute!')
             else:
                  print('Lo sentimos, el libro no está disponible en esta biblioteca,')
@@ -54,8 +55,8 @@ class Libro():
             print('Libro no encontrado.')
             return None
         except ValueError as error:
-             print(f'Error: {error}')
-             return None
+            print(f'Error: {error}')
+            return None
         # Esta función se podría resolver tanto por búsqueda binaria como búsqueda común, pero por motivos prácticos me he limitado a usar solo una comprobación directa
 
 # voy a crear unos objetos por defecto dentro de una lista que será la biblioteca, para que no partamos de un registro de libros vacío
@@ -88,12 +89,12 @@ def menu():
         # Opción 2: Añadir un libro ELIF para ir secuencialmente descartando opciones
         elif opcion == '2': #esto invoca la opción de prestar un libro, con la misma comprobación que anteriormente
             try:
-                   isbn = input ('Ingrese un ISBN de CUATRO números')
+                   isbn = input ('Ingrese un ISBN de CUATRO números: ')
                    if not (isbn.isdigit() and len(isbn)==4):
                         raise ValueError ('ERROR, el ISBN debe tener CUATRO dígitos')
                    libro = Libro.buscar(isbn,biblioteca) #Invocamos el método de buscar, en la biblioteca, con el parámetro de entrada del ISBN
                    if libro:
-                        libro.devolver () #si la condición es True, se podrá devolver
+                        libro.prestar() #si la condición es True, se podrá devolver
             except ValueError as error:
                 print(f'Error: {error}')
                 
